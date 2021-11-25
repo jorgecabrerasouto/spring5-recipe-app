@@ -22,7 +22,8 @@ public class RecipeServiceImpl implements RecipeService {
 	private final RecipeCommandToRecipe recipeCommandToRecipe;
 	private final RecipeToRecipeCommand recipeToRecipeCommand;
 
-	public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand) {
+	public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe,
+			RecipeToRecipeCommand recipeToRecipeCommand) {
 		super();
 		this.recipeRepository = recipeRepository;
 		this.recipeCommandToRecipe = recipeCommandToRecipe;
@@ -47,6 +48,12 @@ public class RecipeServiceImpl implements RecipeService {
 		}
 
 		return recipeOptional.get();
+	}
+
+	@Override
+	@Transactional
+	public RecipeCommand findCommandById(Long l) {
+		return recipeToRecipeCommand.convert(findById(l));
 	}
 
 	@Override
