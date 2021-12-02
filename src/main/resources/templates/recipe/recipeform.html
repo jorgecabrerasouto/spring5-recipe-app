@@ -16,83 +16,89 @@
 <body>
 	<!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
 	<div class="container-fluid" style="margin-top: 20px">
-		<div class="row">
-			<div class="col-md-6 offset-md-3">
+		<div class="justify-content-center">
+			<div class="col-md-8 offset-md-2">
 				<form th:object="${recipe}" th:action="@{/recipe/}" method="post">
 					<input type="hidden" th:field="*{id}" />
 					<div class="card">
-						<div class="card">
-							<div class="card-heading bg-primary text-white">
-								<h5 class="card-title">Edit Recipe Information></h5>
+						<div class="card mb-3">
+							<div class="card-header bg-primary text-light">
+								<h5 class="card-title">Edit Recipe Information</h5>
 							</div>
 							<div class="card-body">
 								<div class="row">
-									<div class="col-md-3 form-group">
-										<label>Recipe Description:</label>
+									<div class="col-md-12 form-group">
+										<label><b>Recipe Description:</b></label>
 										<input type="text" class="form-control" th:field="*{description}" />
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-3 form-group">
-										<label>Categories:</label>
+									<div class="col-md-2 form-group">
+										<label><b>Categories:</b></label>
 									</div>
-									<div class="col-md-9 form-group">
-										<div class="radio">
-											<label>
-												<input type="checkbox" value="" />
-												Cat 1
-											</label>
-										</div>
-										<div class="radio" th:remove="all">
-											<label>
-												<input type="checkbox" value="" />
-												Cat 2
-											</label>
-										</div>
-									</div>
+									<div class="col-md-4 form-group">
+										<ul>
+                                   			<li th:remove="all">cat one</li>
+                                    		<li th:remove="all">cat two</li>
+                                   			<li th:each="category : ${recipe.categories}"
+                                      		  	th:text="${category.getDescription()}">cat three
+                                    		</li>
+                                		</ul>
+                                	</div>
+									<div class="col-md-6">
+                                		<img src="../../static/images/guacamole400x400WithX.jpg"
+                                    		 th:src="@{/images/guacamole400x400WithX.jpg}"
+                                    		 width="200" height="200">
+                            		</div>
 								</div>
 								<div class="row">
-									<div class="col-md-3 form-group">
-										<label>Prep Time:</label>
+									<div class="col-md-2 form-group">
+										<label><b>Prep Time:</b></label>
 										<input type="text" class="form-control" th:field="*{prepTime}" />
 									</div>
 									<div class="col-md-3 form-group">
-										<label>Cooktime:</label>
+										<label><b>Cooktime:</b></label>
 										<input type="text" class="form-control" th:field="*{cookTime}" />
 									</div>
 									<div class="col-md-3 form-group">
-										<label>Difficulty:</label>
-										<select class="form-control">
-											<option>Easy</option>
-											<option>Medium</option>
-											<option>Hard</option>
+										<label><b>Difficulty:</b></label>
+										<select class="form-control" th:field="*{difficulty}">
+											<option	th:each="difficultyValue : ${T(guru.springframework.model.Difficulty).values()}"
+                                                	th:value="${difficultyValue.name()}"
+                                                	th:text="${difficultyValue.name()}">val
+                                        	</option>
 										</select>
+			                            <select class="form-control" th:remove="all">
+            	                            <option>Easy</option>
+                	                        <option>Medium</option>
+                    	                    <option>Hard</option>
+                        	            </select>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-3 form-group">
-										<label>Servings:</label>
+									<div class="col-md-2 form-group">
+										<label><b>Servings:</b></label>
 										<input type="text" class="form-control" th:field="*{servings}" />
 									</div>
 									<div class="col-md-3 form-group">
-										<label>Source:</label>
+										<label><b>Source:</b></label>
 										<input type="text" class="form-control" th:field="*{source}" />
 									</div>
-									<div class="col-md-3 form-group">
-										<label>URL:</label>
+									<div class="col-md-7 form-group">
+										<label><b>URL:</b></label>
 										<input type="text" class="form-control" th:field="*{url}" />
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-heading bg-primary text-white">
+						<div class="card" mb-3>
+							<div class="card-header bg-primary text-light">
 								<div class="row">
 									<div class="col-md-10 ">
 										<h5 class="card-title">Ingredients</h5>
 									</div>
 									<div class="col-md-1">
-										<a class="btn btn-outline-light btn-sm" href="#" role="button">Edit</a>
+										<a class="btn btn-outline-light btn-sm" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">Edit</a>
 									</div>
 								</div>
 							</div>
@@ -102,10 +108,7 @@
 										<ul>
 											<li th:remove="all">1 Cup of milk</li>
 											<li th:remove="all">1 Teaspoon of chocolate</li>
-											<li th:each="ingredient : ${recipe.ingredients}" th:text="${(ingredient.getAmount() +
-                                        ' ' + ingredient.uom.getDescription() +
-                                        ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
-											</li>
+											<li th:each="ingredient : ${recipe.ingredients}" th:text="${(ingredient.getAmount() + ' ' + ingredient.uom.getDescription() + ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar</li>
 										</ul>
 									</div>
 								</div>
